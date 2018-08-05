@@ -4,7 +4,7 @@ import glob
 import os
 import subprocess
 
-REPO = "/Users/dustise/Documents/github/istio.github.io/"
+REPO = os.getenv("GITREPO")
 LOG_CMD = ["git", "log", "-1", "--pretty=format:'%ad'", "--date=iso8601"]
 HASH_CMD = ["git", "log", "-1", "--pretty=format:'%H'"]
 DIFF_CMD = ["git", "diff", "HEAD"]
