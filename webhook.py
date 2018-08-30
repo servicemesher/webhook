@@ -12,6 +12,7 @@ import re
 MAX_WORKING = 3
 TOKEN = os.environ["GITHUB_TOKEN"]
 CMD_LIST = ["/accept", "/pushed", "/merged"]
+ADMIN_LIST = "@fleeto, @rootsongjc"
 
 def get_cmd(body):
     cmd = body.strip().lower()
@@ -66,7 +67,7 @@ def on_issues(data):
 
 @webhook.hook("issue_comment")
 def on_issue_comment(data):
-    #检查命令
+    # 检查命令
     cmd = get_cmd(data["comment"]["body"])
     if not cmd:
         print("Not my style.")
@@ -87,7 +88,8 @@ def on_issue_comment(data):
             print("The issue had been assigned.")
             return
         if not get_issue_by_assignee(repo_obj, data["sender"]["login"], "translating"):
-            print("You have accept too many issues.")
+            body = "@{}: You had too many issues in your queue. {}".format(data["sender"]["login"], ADMIN_LIST)
+            issue_obj.create_comment(body)
             return            
         issue_obj.add_to_assignees(creater_obj)
         issue_obj.remove_from_labels("pending")
