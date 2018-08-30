@@ -88,7 +88,7 @@ def on_issue_comment(data):
             print("The issue had been assigned.")
             return
         if not get_issue_by_assignee(repo_obj, data["sender"]["login"], "translating"):
-            body = "@{}: You had too many issues in your queue. {}".format(data["sender"]["login"], ADMIN_LIST)
+            body = "@{}: There are too many issues in your queue. {}".format(data["sender"]["login"], ADMIN_LIST)
             issue_obj.create_comment(body)
             return            
         issue_obj.add_to_assignees(creater_obj)
