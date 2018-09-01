@@ -51,6 +51,7 @@ app = Flask(__name__)
 webhook = Webhook(app)
 
 
+
 @app.route("/")
 def hello_world():
     return "Hello, World!"
@@ -73,7 +74,6 @@ def on_issue_comment(data):
         print("Not my style.")
         return
     client = github.Github(TOKEN)
-    github.enable_console_debug_logging()
     owner_login = data["repository"]["owner"]["login"]
     repo_obj = client.get_repo(data["repository"]["id"])
     creater_obj = client.get_user(data["sender"]["login"])
