@@ -71,7 +71,7 @@ def get_issue_by_assignee(repo, login, flag):
 def log_incoming_comment(data):
     line = "User: {} Issue: {} Comment: {}"
     content = line.format(
-        data["repository"]["owner"]["login"],
+        data["sender"]["login"],        
         data["issue"]["number"],
         data["comment"]["body"]
     )
