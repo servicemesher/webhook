@@ -75,7 +75,7 @@ def log_incoming_comment(data):
         data["issue"]["number"],
         data["comment"]["body"]
     )
-    logger.info(line)
+    logger.info(content)
 
 
 @app.route("/")
