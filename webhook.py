@@ -14,7 +14,7 @@ import logging.handlers
 LOG_FILE = 'webhook.log'
 MAX_LOG_BYTES = 1024 * 1024
 MAX_WORKING = 3
-LOG_LEVEL = os.getenv('LOG_LEVEL', logging.INFO)
+LOG_LEVEL = os.getenv('LOG_LEVEL',  str(logging.INFO))
 TOKEN = os.getenv('GITHUB_TOKEN', "")
 CMD_LIST = ["/accept", "/pushed", "/merged"]
 ADMIN_LIST = "@fleeto, @rootsongjc"
@@ -28,7 +28,7 @@ handler.setFormatter(formatter)
 
 logger = logging.getLogger()
 logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(int(LOG_LEVEL))
 
 app = Flask(__name__)
 webhook = Webhook(app)
