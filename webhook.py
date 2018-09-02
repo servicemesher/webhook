@@ -14,7 +14,7 @@ import logging.handlers
 LOG_FILE = 'webhook.log'
 MAX_LOG_BYTES = 1024 * 1024
 MAX_WORKING = 3
-LOG_LEVEL = os.getenv('LOG_LEVEL',  str(logger.info))
+LOG_LEVEL = os.getenv('LOG_LEVEL',  str(logging.INFO))
 TOKEN = os.getenv('GITHUB_TOKEN', "")
 CMD_LIST = ["/accept", "/pushed", "/merged"]
 ADMIN_LIST = "@fleeto, @rootsongjc"
