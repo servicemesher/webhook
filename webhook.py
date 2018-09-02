@@ -14,7 +14,7 @@ import logging.handlers
 LOG_FILE = 'webhook.log'
 MAX_LOG_BYTES = 1024 * 1024
 MAX_WORKING = 3
-LOG_LEVEL = os.getenv('LOG_LEVEL',  str(logging.INFO))
+LOG_LEVEL = os.getenv('LOG_LEVEL',  str(logger.info))
 TOKEN = os.getenv('GITHUB_TOKEN', "")
 CMD_LIST = ["/accept", "/pushed", "/merged"]
 ADMIN_LIST = "@fleeto, @rootsongjc"
@@ -100,7 +100,7 @@ def on_issue_comment(data):
     # 检查命令
     cmd = get_cmd(data["comment"]["body"])
     if not cmd:
-        logging.info("No availible command found in the issue")
+        logger.info("No availible command found in the issue")
         return
     client = github.Github(TOKEN)
     owner_login = data["repository"]["owner"]["login"]
@@ -108,20 +108,20 @@ def on_issue_comment(data):
     creater_obj = client.get_user(data["sender"]["login"])
     issue_obj = repo_obj.get_issue(data["issue"]["number"])
     if not repo_obj.has_in_assignees(creater_obj):
-        logging.info("The author isn't in the list of assignees")
+        logger.info("The author isn't in the list of assignees")
         return
     label_name_list = get_labels(issue_obj)
     assignee_login_list = get_assignees(issue_obj)
-    logging.info(
+    logger.info(
         "Current assignees: {}".format(",".join(assignee_login_list))
     )
-    logging.info(
+    logger.info(
         "Current Labels: {}".format(",".join(label_name_list))
     )
     assigned = len(issue_obj.assignees) > 0
     if (cmd == "accept"):
         if (assigned) or (not ("pending" in label_name_list)):
-            logging.info("The issue had been assigned.")
+            logger.info("The issue had been assigned.")
             return
         if not get_issue_by_assignee(repo_obj, data["sender"]["login"], "translating"):
             body = "@{}: There are too many issues in your queue. {}".format(
@@ -135,20 +135,20 @@ def on_issue_comment(data):
 
     if (cmd == "pushed"):
         if (not ("translating") in label_name_list) or not assigned:
-            logging.info("Can't be pushed.")
+            logger.info("Can't be pushed.")
             return
         if (not data["sender"]["login"] in assignee_login_list):
-            logging.info("You are not member of the assignees")
+            logger.info("You are not member of the assignees")
             return
         issue_obj.remove_from_labels("translating")
         issue_obj.add_to_labels("pushed")
 
     if (cmd == "merged"):
         if (not ("pushed" in label_name_list)) or not assigned:
-            logging.info("Can't be merged.")
+            logger.info("Can't be merged.")
             return
         if (not data["sender"]["login"] in assignee_login_list):
-            logging.info("You are not member of the assignees")
+            logger.info("You are not member of the assignees")
             return
         issue_obj.remove_from_labels("pushed")
         issue_obj.add_to_labels("finished")
