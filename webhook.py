@@ -7,20 +7,20 @@ import json
 import github
 import os
 import re
+import sys
 
 import logging
 import logging.handlers
 
-LOG_FILE = 'webhook.log'
 MAX_LOG_BYTES = 1024 * 1024
 MAX_WORKING = 3
 LOG_LEVEL = os.getenv('LOG_LEVEL',  str(logging.INFO))
 TOKEN = os.getenv('GITHUB_TOKEN', "")
 CMD_LIST = ["/accept", "/pushed", "/merged"]
-ADMIN_LIST = "@fleeto, @rootsongjc"
+ADMIN_LIST = ["fleeto", "rootsongjc"]
+ADMIN_STR = "@fleeto, @rootsongjc"
 
-handler = logging.handlers.RotatingFileHandler(
-    LOG_FILE, maxBytes=MAX_LOG_BYTES, backupCount=50)
+handler = logging.StreamHandler(sys.stdout)
 fmt = '%(asctime)s - [%(levelname)s] - %(filename)s:%(lineno)s - %(message)s'
 
 formatter = logging.Formatter(fmt)
@@ -125,7 +125,7 @@ def on_issue_comment(data):
             return
         if not get_issue_by_assignee(repo_obj, data["sender"]["login"], "translating"):
             body = "@{}: There are too many issues in your queue. {}".format(
-                data["sender"]["login"], ADMIN_LIST)
+                data["sender"]["login"], ADMIN_STR)
             issue_obj.create_comment(body)
             return
         issue_obj.add_to_assignees(creater_obj)
@@ -154,6 +154,5 @@ def on_issue_comment(data):
         issue_obj.add_to_labels("finished")
         issue_obj.edit(state="closed")
 
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, debug=True)
+    app.run(host="0.0.0.0", port=8808, debug=True)
