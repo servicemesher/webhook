@@ -155,4 +155,4 @@ def on_issue_comment(data):
         issue_obj.edit(state="closed")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8808, debug=True)
+    app.run(host="0.0.0.0", port=8808, debug=False)

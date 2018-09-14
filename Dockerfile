@@ -4,4 +4,4 @@ RUN  apk add --update --no-cache python3 && \
   mkdir /webhook
 COPY webhook.py /webhook
 #VOLUME [ "/webhook" ]
-#CMD "/webhook/webhook.py"
+CMD "/webhook/webhook.py"
