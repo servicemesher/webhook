@@ -30,7 +30,7 @@ pygments-markdown-lexer==0.1.0.dev39
 PyJWT==1.6.4
 pylint==2.1.1
 pyOpenSSL==18.0.0
-requests==2.19.1
+requests==2.20.0
 rocket-errbot==1.2.5
 six==1.11.0
 urllib3==1.23
