@@ -27,7 +27,7 @@ pycparser==2.18
 PyGithub==1.40
 Pygments==2.7.4
 pygments-markdown-lexer==0.1.0.dev39
-PyJWT==1.6.4
+PyJWT==2.4.0
 pylint==2.1.1
 pyOpenSSL==18.0.0
 requests==2.19.1
